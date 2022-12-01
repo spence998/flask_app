@@ -2,6 +2,6 @@ playsound==1.2.2
 Flask==2.2.2
 Flask-Reuploaded==1.2.0
 Flask-WTF==1.0.1
-detecto=1.2.2
+detecto==1.2.2
 WTForms==3.0.1
 
