@@ -14,7 +14,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = "consumerlending"
 app.config["UPLOADED_PHOTOS_DEST"] = 'uploads'
 
-photos = UploadSet('photos', IMAGES)
+photos = UploadSet('photos', tuple("png jpg jpeg mp4".split()))
 configure_uploads(app, photos)
 
 class UploadForm(FlaskForm):
@@ -42,6 +42,11 @@ def text_to_speech(text):
     engine.say(text)
     engine.runAndWait()
 
+def serve_model():
+    #
+
+    return True
+
 @app.route('/uploads/<filename>')
 def get_file(filename):
     return send_from_directory(
@@ -59,6 +64,9 @@ def upload_image():
 
         #Test out the model here
         model_result = False
+
+        #Change file_url to where the image detected is
+
 
         if model_result:
             text = 'The item is recyclable'
