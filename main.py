@@ -8,8 +8,6 @@ from flask_uploads import UploadSet, configure_uploads
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import SubmitField
-import pyttsx3
-import pickle
 from detecto.core import Model
 from detecto import utils
 
@@ -23,28 +21,15 @@ app.config["UPLOADED_PHOTOS_DEST"] = 'uploads'
 
 model = Model.load(r"C:\dev\projects\repos\flask_app\model\recycle.pth", ["recycle"])
 
-# def serve_model(image):
-#     image = utils.read_image("images/IMG_0094.JPG")
-#     model = pickle.load()
-#
-#     predictions = model.predict(image)
-#     # predictions format: (labels, boxes, scores)
-#     labels, boxes, scores = predictions
-#     # [‘alien’, ‘bat’, ‘bat’]
-#     print(labels)
-#     print(boxes)
-#     # tensor([0.9952, 0.9837, 0.5153])
-#     print(scores)
-#     visualize.show_labeled_image(image, boxes, labels)
-#     return True
 
-photos = UploadSet('photos', tuple("png jpg jpeg mp4".split()))
-configure_uploads(app, photos)
+media = UploadSet('photos', tuple("png jpg jpeg mp4".split()))
+configure_uploads(app, media)
+
 
 class UploadForm(FlaskForm):
     photo = FileField(
         validators=[
-            FileAllowed(photos, "Only images are allowed"),
+            FileAllowed(media, "Only images are allowed"),
             FileRequired('File field should not be empty')
         ]
     )
@@ -76,7 +61,7 @@ def upload_image():
     upload_p = Path('./uploads')
     print("BEFORE IF STATEMENT SUBMIT")
     if form.validate_on_submit():
-        filename = photos.save(form.photo.data)
+        filename = media.save(form.photo.data)
         file_url = url_for("get_file", filename=filename)
 
 
